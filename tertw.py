@@ -3,6 +3,8 @@ import gi
 import cv2
 
 gi.require_version("Gst", "1.0")
+gi.require_version('GstPbutils', '1.0')
+from gi.repository import GstPbutils
 from gi.repository import Gst as gst
 from gi.repository import GObject as gobject
 
@@ -22,18 +24,13 @@ class Framerate:
     def get_duration(self):
         self.pipeline.set_state(gst.State.PLAYING)
         self.pipeline.get_state(gst.CLOCK_TIME_NONE)
+        fps = self.sink.get_property('')
         format_ = gst.Format.TIME
         duration = self.pipeline.query_duration(format_)[1]
-        return int(duration * 10**-9)
-
-    def get_fps(self):
-        self.pipeline.set_state(gst.State.PLAYING)
-        fps = self.sink.get_property('frames-rendered')
-        return fps
+        return (int(duration * 10**-9), fps)
 
 
 if __name__ == '__main__':
     frames = Framerate()
     print(frames.get_duration())
-    print(frames.get_fps())
 
