@@ -1,15 +1,9 @@
 .idea/
 .vscode/
-Rodeo.mp3
 __pycache__/
 env/
 example.py
-file.ogg
-gstreamer_empty_plugin_test_case.py
-opencv/
-pygst-tutorial.pdf
 quantity_of_frames.py
 qwer.py
 ret.py
-*.mp4
-
+tertw.py
