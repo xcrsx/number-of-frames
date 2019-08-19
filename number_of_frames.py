@@ -46,7 +46,7 @@ class TotalNumberOfFrames:
 if __name__ == "__main__":
     try:
         frames_total = TotalNumberOfFrames(sys.argv[1])
-        print(f'The number of frames in the file {sys.argv[1]}: '
+        print(f'The number of frames in the file "{sys.argv[1]}": '
               f'{frames_total.get_total_frames()}')
     except GLib.Error:
         print('File not found or invalid path')
