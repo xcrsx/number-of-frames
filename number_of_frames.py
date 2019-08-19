@@ -11,31 +11,42 @@ Gst.init("")
 
 
 class TotalNumberOfFrames:
-    def __init__(self):
-        self.stream = GstPbutils.Discoverer()
-        self.uri = os.path.dirname(os.path.abspath(__file__))
-        self.path_1 = f'file://{sys.argv[1]}'
-        self.path_2 = f'file://{self.uri}{sys.argv[1]}'
-
-    def get_number_of_frames(self):
+    def __init__(self, arg, uri=os.path.dirname(os.path.abspath(__file__))):
+        self.arg = arg
+        self.uri = uri
+        stream = GstPbutils.Discoverer()
+        path_1 = f'file://{self.arg}'
+        path_2 = f'file://{uri}{self.arg}'
         try:
-            path = self.path_1
-            info = self.stream.discover_uri(path)
+            self._info = stream.discover_uri(path_1)
         except GLib.Error:
-            path = self.path_2
-            info = self.stream.discover_uri(path)
-        duration = info.get_duration()
-        stream_info = info.get_video_streams()
+            self._info = stream.discover_uri(path_2)
+
+    def get_duration(self):
+        duration = self._info.get_duration()
+        # the method .get_duration() returns value in nanoseconds
+        # we transform it in the seconds
+        duration *= 10**-9
+        return duration
+
+    def get_fps(self):
+        stream_info = self._info.get_video_streams()
         fps_num = stream_info[0].get_framerate_num()
         fps_denom = stream_info[0].get_framerate_denom()
         fps = round(fps_num / fps_denom)
-        total_frames = int(duration * 10**-9) * fps
+        return fps
+
+    def get_total_frames(self):
+        duration = self.get_duration()
+        fps = self.get_fps()
+        total_frames = int(duration) * fps
         return total_frames
 
 
 if __name__ == "__main__":
     try:
-        stream = TotalNumberOfFrames()
-        print(f'Количество фреймов в файле {sys.argv[1]}: {stream.get_number_of_frames()}')
+        frames_total = TotalNumberOfFrames(sys.argv[1])
+        print(f'The number of frames in the file {sys.argv[1]}: '
+              f'{frames_total.get_total_frames()}')
     except GLib.Error:
         print('File not found or invalid path')
