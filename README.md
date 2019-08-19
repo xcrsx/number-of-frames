@@ -24,7 +24,7 @@ $ python number_of_frames.py /home/usr/Videos/SPAM.mp4
 ```
 You'll see
 ```bash
-The number of frames in the file /home/usr/Videos/SPAM.mp4: 50
+The number of frames in the file "/home/usr/Videos/SPAM.mp4": 50
 ```
 ## Running the tests
 Pytest library was used for tests. These tests test if the exception rise when the path is invalid also the correct duration, fps, and the number of frames in the testing example SPAM.mp4.
