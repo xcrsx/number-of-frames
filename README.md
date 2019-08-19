@@ -30,7 +30,7 @@ The number of frames in the file "/home/usr/Videos/SPAM.mp4": 50
 Pytest library was used for tests. These tests test if the exception rise when the path is invalid also the correct duration, fps, and the number of frames in the testing example SPAM.mp4.
 To run the tests cd in the directory of the project type this command on the command line: 
 ```bash
-$ py-test -v
+$ py.test -v
 ```
 You'll see something like this:
 ```bash
